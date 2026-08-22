@@ -8,6 +8,19 @@
 
 > XL-FenBao Study 是 [XL-FenBao](https://github.com/k4ubx7/XL-FenBao) 的配套采集工具：它负责把你有权保存的视频带回本地；视频中经过学习、验证和提炼的内容，才适合进一步进入个人 AI 工程资产系统。
 
+## 界面预览
+
+<p align="center">
+  <img src="docs/screenshots/01-download-home.webp" alt="XL-FenBao Study 下载主界面" width="100%">
+</p>
+
+<p align="center">
+  <img src="docs/screenshots/03-download-completed.webp" alt="XL-FenBao Study 下载完成界面" width="49%">
+  <img src="docs/screenshots/02-download-settings.webp" alt="XL-FenBao Study 下载设置界面" width="49%">
+</p>
+
+<p align="center"><sub>主界面、下载完成状态与下载设置；画面使用隔离的本地演示数据。</sub></p>
+
 ## 直接下载
 
 不参与开发的用户可以前往 [GitHub Releases](https://github.com/k4ubx7/XL-FenBao-Study/releases/latest)，下载名称包含 `windows-x64-portable.zip` 的 Windows 便携包：
