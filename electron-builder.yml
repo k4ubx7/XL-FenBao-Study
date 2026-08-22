@@ -1,0 +1,32 @@
+appId: cn.fenbao.study
+productName: 粉包学习记
+executableName: 粉包学习记
+asar: true
+npmRebuild: false
+compression: maximum
+directories:
+  output: release
+files:
+  - out/**
+  - package.json
+  - THIRD_PARTY_NOTICES.md
+extraResources:
+  - from: vendor/bin
+    to: bin
+    filter:
+      - yt-dlp.exe
+      - ffmpeg.exe
+      - ffprobe.exe
+      - FFmpeg-LICENSE.txt
+extraFiles:
+  - from: 使用说明.txt
+    to: 使用说明.txt
+  - from: THIRD_PARTY_NOTICES.md
+    to: 第三方许可说明.md
+win:
+  icon: build/icon.svg
+  target:
+    - target: dir
+      arch:
+        - x64
+  artifactName: 粉包学习记-${version}-${arch}

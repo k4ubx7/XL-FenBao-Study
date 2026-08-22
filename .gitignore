@@ -1,0 +1,36 @@
+# Dependencies and build output
+node_modules/
+out/
+dist/
+release/
+.cache/
+coverage/
+playwright-report/
+test-results/
+
+# Local application state and downloaded content
+/.dev-data/
+/data/
+/downloads/
+
+# Third-party binaries supplied locally
+vendor/bin/*.exe
+vendor/bin/*.dll
+vendor/bin/*.zip
+
+# Secrets, local configuration and logs
+.env
+.env.*
+!.env.example
+*.log
+*.tmp
+
+# Editor and operating-system files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Local agent and worktree state
+.superpowers/
+.worktrees/
