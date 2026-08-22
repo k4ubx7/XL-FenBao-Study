@@ -17,4 +17,10 @@ Sources:
 - FFmpeg source: https://ffmpeg.org/
 - Windows FFmpeg build: https://github.com/BtbN/FFmpeg-Builds/releases
 
+License and source material retained in this directory:
+
+- `yt-dlp-LICENSE.txt` and `yt-dlp-THIRD_PARTY_LICENSES.txt` correspond to yt-dlp `2026.07.04`.
+- `FFmpeg-LICENSE.txt` is the GPL license distributed with the selected BtbN build.
+- `FFmpeg-SOURCE.md` identifies the exact FFmpeg source and BtbN build-script revisions.
+
 The copied hashes must match this table before packaging.

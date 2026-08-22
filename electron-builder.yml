@@ -18,11 +18,16 @@ extraResources:
       - ffmpeg.exe
       - ffprobe.exe
       - FFmpeg-LICENSE.txt
+      - FFmpeg-SOURCE.md
+      - yt-dlp-LICENSE.txt
+      - yt-dlp-THIRD_PARTY_LICENSES.txt
 extraFiles:
   - from: 使用说明.txt
     to: 使用说明.txt
   - from: THIRD_PARTY_NOTICES.md
     to: 第三方许可说明.md
+  - from: LICENSE
+    to: LICENSE-XL-FenBao-Study.txt
 win:
   icon: build/icon.svg
   target:

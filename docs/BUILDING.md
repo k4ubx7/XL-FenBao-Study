@@ -70,6 +70,8 @@ npm run pack
 
 输出位于 `release/win-unpacked/`。
 
+便携目录包含项目 Apache-2.0 许可证、yt-dlp 的许可证与第三方声明，以及 FFmpeg 的 GPL 与对应源码说明。不要删除这些文件后再分发。
+
 ## 第三方许可
 
 本项目的 Apache-2.0 只覆盖项目自身源码，不会替代依赖和二进制工具的许可证。发布包含 yt-dlp 或 FFmpeg 的程序前，请阅读 [`THIRD_PARTY_NOTICES.md`](../THIRD_PARTY_NOTICES.md)，并根据实际二进制构建履行许可、声明与源代码提供义务。

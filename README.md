@@ -8,6 +8,16 @@
 
 > XL-FenBao Study 是 [XL-FenBao](https://github.com/k4ubx7/XL-FenBao) 的配套采集工具：它负责把你有权保存的视频带回本地；视频中经过学习、验证和提炼的内容，才适合进一步进入个人 AI 工程资产系统。
 
+## 直接下载
+
+不参与开发的用户可以前往 [GitHub Releases](https://github.com/k4ubx7/XL-FenBao-Study/releases/latest)，下载名称包含 `windows-x64-portable.zip` 的 Windows 便携包：
+
+1. 下载并完整解压 ZIP，不要只单独取出 EXE。
+2. 双击 `粉包学习记.exe`。
+3. 粘贴公开视频链接或分享文案后开始下载。
+
+便携包已经包含运行所需的 yt-dlp、FFmpeg 和 FFprobe，不需要安装 Node.js。当前程序未使用商业代码签名证书，Windows SmartScreen 可能显示未知发布者；请只从本仓库 Release 下载，并用同一 Release 中的 SHA-256 文件核对完整性。
+
 ## 它解决什么问题
 
 真正有价值的学习材料经常分散在抖音、Bilibili、YouTube 和其他网页里。只收藏链接会受到失效、下架和平台切换影响，随手下载又容易留下混乱的文件名和目录。
@@ -150,6 +160,20 @@ XL-FenBao 是个人 AI 工程能力的系统容器，XL-FenBao Study 是可选�
 ## 贡献
 
 欢迎修复文档、测试、站点适配、可靠性和隐私问题。提交前请阅读 [`CONTRIBUTING.md`](CONTRIBUTING.md)。不要提交真实 Cookie、下载记录、媒体文件或来历不明的第三方二进制。
+
+## 致谢
+
+XL-FenBao Study 建立在成熟的开源生态之上，感谢以下项目及其贡献者：
+
+- [Electron](https://www.electronjs.org/) 提供跨平台桌面运行环境。
+- [React](https://react.dev/)、[TypeScript](https://www.typescriptlang.org/) 与 [Vite](https://vite.dev/) 支撑界面和工程构建。
+- [yt-dlp](https://github.com/yt-dlp/yt-dlp) 提供公开网页视频的解析与下载能力。
+- [FFmpeg](https://ffmpeg.org/) 提供媒体探测、封装与音视频合并能力。
+- [BtbN FFmpeg Builds](https://github.com/BtbN/FFmpeg-Builds) 提供可复现的 Windows FFmpeg 自动构建体系。
+- [Playwright](https://playwright.dev/) 与 [Vitest](https://vitest.dev/) 支撑浏览器适配和自动验证。
+- [Zod](https://zod.dev/) 与 [Zustand](https://zustand.docs.pmnd.rs/) 支撑数据校验和界面状态管理。
+
+感谢不等于改变许可边界或表示上述项目为本项目背书。各项目保留自己的名称、版权和许可证。
 
 ## 许可证
 
