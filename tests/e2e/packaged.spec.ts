@@ -4,6 +4,7 @@ import { tmpdir } from 'node:os'
 import { basename, dirname, extname, join } from 'node:path'
 import { createMediaFixture } from '../fixtures/create-media'
 import { startMediaServer, type MediaServer } from '../fixtures/media-server'
+import { executableName, resolveAppPaths } from '../../src/main/paths'
 
 const packagedExecutable = process.env.FENBAO_PACKAGED_EXE
 
@@ -20,15 +21,20 @@ test.beforeAll(async () => {
   data = join(root, 'data')
   const fixture = join(root, 'fixture.mp4')
   const executableDirectory = dirname(packagedExecutable!)
+  const paths = resolveAppPaths({
+    packaged: true,
+    executablePath: packagedExecutable!,
+    projectRoot: process.cwd()
+  })
 
   const instructions = await readFile(
-    join(executableDirectory, '使用说明.txt'),
+    join(process.platform === 'darwin' ? dirname(executableDirectory) : executableDirectory, '使用说明.txt'),
     'utf8'
   )
   expect(instructions).toContain('建议放在 D 盘等空间充足的位置')
 
   await createMediaFixture(
-    join(executableDirectory, 'resources', 'bin', 'ffmpeg.exe'),
+    join(paths.ffmpegDir, executableName('ffmpeg')),
     fixture
   )
   server = await startMediaServer(fixture)
