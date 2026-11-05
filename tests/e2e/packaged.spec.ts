@@ -28,7 +28,7 @@ test.beforeAll(async () => {
   })
 
   const instructions = await readFile(
-    join(process.platform === 'darwin' ? dirname(executableDirectory) : executableDirectory, '使用说明.txt'),
+    join(process.platform === 'darwin' ? dirname(paths.ffmpegDir) : executableDirectory, '使用说明.txt'),
     'utf8'
   )
   expect(instructions).toContain('建议放在 D 盘等空间充足的位置')
