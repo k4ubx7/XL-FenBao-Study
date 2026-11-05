@@ -17,6 +17,10 @@ test-results/
 vendor/bin/*.exe
 vendor/bin/*.dll
 vendor/bin/*.zip
+vendor/bin/yt-dlp
+vendor/bin/ffmpeg
+vendor/bin/ffprobe
+vendor/bin/tools-manifest.json
 
 # Secrets, local configuration and logs
 .env

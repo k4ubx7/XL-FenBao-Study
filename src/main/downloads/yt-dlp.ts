@@ -8,6 +8,7 @@ import type {
 } from '../../shared/contracts'
 import { downloadOutputArgs, qualityArgs } from './quality'
 import { parseProgressLine } from './progress'
+import { executableName } from '../paths'
 
 const MAX_METADATA_BYTES = 20 * 1024 * 1024
 const MAX_ERROR_CHARACTERS = 2_000
@@ -50,6 +51,7 @@ interface AdapterOptions {
   executable: string
   ffmpegDir: string
   spawnProcess?: SpawnProcess
+  platform?: NodeJS.Platform
 }
 
 interface ProcessResult {
@@ -213,7 +215,7 @@ export class YtDlpProcessAdapter implements YtDlpAdapter {
         'mp4'
       )
       await this.runBinary(
-        join(this.options.ffmpegDir, 'ffmpeg.exe'),
+        join(this.options.ffmpegDir, executableName('ffmpeg', this.options.platform)),
         [
           '-hide_banner',
           '-loglevel',

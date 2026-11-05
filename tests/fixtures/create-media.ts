@@ -25,7 +25,7 @@ export async function createMediaFixture(
         '-i',
         'sine=frequency=1000:duration=2',
         '-c:v',
-        'libx264',
+        'mpeg4',
         '-pix_fmt',
         'yuv420p',
         '-c:a',

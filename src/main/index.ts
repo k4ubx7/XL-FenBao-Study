@@ -23,7 +23,10 @@ import { createWindowOptions } from './window-options'
 const paths = resolveAppPaths({
   packaged: app.isPackaged,
   executablePath: process.execPath,
-  projectRoot: app.getAppPath()
+  projectRoot: app.getAppPath(),
+  resourcesPath: process.resourcesPath,
+  userDataPath: join(app.getPath('appData'), '粉包学习记'),
+  downloadsPath: app.getPath('downloads')
 })
 
 app.setPath('userData', paths.data)

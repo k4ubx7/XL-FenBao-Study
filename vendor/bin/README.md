@@ -24,3 +24,15 @@ License and source material retained in this directory:
 - `FFmpeg-SOURCE.md` identifies the exact FFmpeg source and BtbN build-script revisions.
 
 The copied hashes must match this table before packaging.
+
+## macOS (v1.1.0 and later)
+
+Run `npm run tools:prepare` on the target architecture. The official universal
+`yt-dlp_macos` 2026.07.04 binary is stored as `yt-dlp` and verified against SHA-256
+`498bd0dae17855c599d371d68ec5bafc439a9d8640e838be25c765a9792f261b`.
+FFmpeg and FFprobe are built from the same pinned FFmpeg source revision, without
+external codec libraries, under LGPL 2.1+. See `docs/FFmpeg-MAC-SOURCE.md`.
+The script creates native `ffmpeg`/`ffprobe` executables, replaces the bundled
+FFmpeg license/source notice for macOS, and records hashes in `tools-manifest.json`.
+Do not commit generated binaries or replace the Windows license in Git with a
+locally generated macOS license; the preparation script selects it at build time.

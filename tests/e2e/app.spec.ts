@@ -4,6 +4,7 @@ import { tmpdir } from 'node:os'
 import { basename, extname, join } from 'node:path'
 import { createMediaFixture } from '../fixtures/create-media'
 import { startMediaServer, type MediaServer } from '../fixtures/media-server'
+import { executableName } from '../../src/main/paths'
 
 let root: string
 let downloads: string
@@ -16,7 +17,7 @@ test.beforeAll(async () => {
   data = join(root, 'data')
   const fixture = join(root, 'fixture.mp4')
   await createMediaFixture(
-    join(process.cwd(), 'vendor', 'bin', 'ffmpeg.exe'),
+    join(process.cwd(), 'vendor', 'bin', executableName('ffmpeg')),
     fixture
   )
   server = await startMediaServer(fixture)

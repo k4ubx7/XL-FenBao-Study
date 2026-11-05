@@ -1,0 +1,130 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: Publish after all platforms pass (otherwise create a draft)
+        type: boolean
+        default: false
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            platform: windows
+            arch: x64
+          - os: macos-15
+            platform: macos
+            arch: arm64
+          - os: macos-15-intel
+            platform: macos
+            arch: x64
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run typecheck
+      - name: Prepare verified native download tools
+        run: npm run tools:prepare
+      - name: Test download in development build
+        run: npm run test:e2e
+      - name: Package Windows
+        if: runner.os == 'Windows'
+        run: npm run pack:win
+      - name: Package macOS
+        if: runner.os == 'macOS'
+        run: npm run pack:mac -- --${{ matrix.arch }}
+      - name: Test packaged Windows download and history restore
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $env:FENBAO_PACKAGED_EXE = Join-Path $PWD 'release/win-unpacked/粉包学习记.exe'
+          npx playwright test tests/e2e/packaged.spec.ts
+      - name: Verify and test packaged macOS app
+        if: runner.os == 'macOS'
+        shell: bash
+        run: |
+          app=$(find release -maxdepth 2 -name '*.app' -type d -print -quit)
+          test -n "$app"
+          codesign --verify --deep --strict --verbose=2 "$app"
+          export FENBAO_PACKAGED_EXE="$PWD/$app/Contents/MacOS/粉包学习记"
+          npx playwright test tests/e2e/packaged.spec.ts
+      - name: Collect packages and SHA-256 checksums
+        run: node scripts/collect-artifacts.mjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release-${{ matrix.platform }}-${{ matrix.arch }}
+          path: release/artifacts/*
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: diagnostics-${{ matrix.platform }}-${{ matrix.arch }}
+          path: test-results/
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: release-*
+          path: release/artifacts
+          merge-multiple: true
+      - name: Download corresponding third-party source archives
+        run: node scripts/prepare-tools.mjs --sources-only
+      - name: Verify and publish complete release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SHOULD_PUBLISH: ${{ github.event_name == 'push' || inputs.publish }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          version=$(node -p 'require("./package.json").version')
+          tag="v$version"
+          if [[ "$GITHUB_REF_TYPE" == tag && "$GITHUB_REF_NAME" != "$tag" ]]; then
+            echo 'Package version and release tag differ' >&2
+            exit 1
+          fi
+          cd release/artifacts
+          sha256sum --check *.sha256
+          test -f "XL-FenBao-Study-$tag-windows-x64-portable.zip"
+          for arch in arm64 x64; do
+            test -f "XL-FenBao-Study-$tag-macos-$arch.dmg"
+            test -f "XL-FenBao-Study-$tag-macos-$arch.zip"
+          done
+          cd ../..
+          if gh release view "$tag" --json isDraft > .cache-release.json 2>/dev/null; then
+            node -e 'if (!require("./.cache-release.json").isDraft) throw Error("Refusing to replace a published release")'
+          else
+            gh release create "$tag" --target "$GITHUB_SHA" --draft --title "XL-FenBao Study $tag · Windows + macOS" --notes-file "docs/RELEASE-$tag.md"
+          fi
+          gh release upload "$tag" release/artifacts/* release/sources/* --clobber
+          if [[ "$SHOULD_PUBLISH" == true ]]; then
+            gh release edit "$tag" --draft=false --latest
+          fi
