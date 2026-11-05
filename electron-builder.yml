@@ -25,15 +25,15 @@ extraResources:
       - FFmpeg-SOURCE.md
       - yt-dlp-LICENSE.txt
       - yt-dlp-THIRD_PARTY_LICENSES.txt
-extraFiles:
-  - from: 使用说明.txt
-    to: 使用说明.txt
-  - from: THIRD_PARTY_NOTICES.md
-    to: 第三方许可说明.md
-  - from: LICENSE
-    to: LICENSE-XL-FenBao-Study.txt
 win:
   icon: build/icon.svg
+  extraFiles:
+    - from: 使用说明.txt
+      to: 使用说明.txt
+    - from: THIRD_PARTY_NOTICES.md
+      to: 第三方许可说明.md
+    - from: LICENSE
+      to: LICENSE-XL-FenBao-Study.txt
   target:
     - target: dir
       arch:
@@ -41,6 +41,13 @@ win:
   artifactName: 粉包学习记-${version}-${arch}
 mac:
   icon: build/icon.png
+  extraResources:
+    - from: 使用说明.txt
+      to: 使用说明.txt
+    - from: THIRD_PARTY_NOTICES.md
+      to: 第三方许可说明.md
+    - from: LICENSE
+      to: LICENSE-XL-FenBao-Study.txt
   category: public.app-category.education
   minimumSystemVersion: '13.0'
   identity: '-'
