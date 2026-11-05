@@ -67,6 +67,8 @@ describe('resolveAppPaths', () => {
   it('uses sibling data/downloads and resources/bin in packaged mode', () => {
     const paths = resolveAppPaths({
       packaged: true,
+      platform: 'win32',
+      environment: {},
       executablePath: 'D:\\粉包学习记\\粉包学习记.exe',
       projectRoot: 'C:\\source'
     })
@@ -84,6 +86,8 @@ describe('resolveAppPaths', () => {
   it('uses project-local vendor and isolated development data', () => {
     const paths = resolveAppPaths({
       packaged: false,
+      platform: 'win32',
+      environment: {},
       executablePath: 'C:\\electron\\electron.exe',
       projectRoot: 'D:\\source\\fenbao-study'
     })

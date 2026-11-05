@@ -256,7 +256,9 @@ describe('YtDlpProcessAdapter', () => {
     )
 
     const [file, args, options] = calls[0]
-    expect(file).toBe('D:\\app\\resources\\bin\\ffmpeg.exe')
+    expect(file).toBe(process.platform === 'win32'
+      ? 'D:\\app\\resources\\bin\\ffmpeg.exe'
+      : 'D:\\app\\resources\\bin/ffmpeg')
     expect(args).toEqual(
       expect.arrayContaining([
         '-i',
