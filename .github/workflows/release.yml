@@ -43,8 +43,21 @@ jobs:
       - run: npm ci
       - run: npm test
       - run: npm run typecheck
+      - name: Restore verified native tools
+        id: native-tools
+        uses: actions/cache/restore@v4
+        with:
+          path: vendor/bin
+          key: native-tools-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('scripts/prepare-tools.mjs', 'scripts/build-ffmpeg-mac.sh') }}
       - name: Prepare verified native download tools
+        if: steps.native-tools.outputs.cache-hit != 'true'
         run: npm run tools:prepare
+      - name: Cache verified native tools
+        if: steps.native-tools.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: vendor/bin
+          key: ${{ steps.native-tools.outputs.cache-primary-key }}
       - name: Test download in development build
         run: npm run test:e2e
       - name: Package Windows
