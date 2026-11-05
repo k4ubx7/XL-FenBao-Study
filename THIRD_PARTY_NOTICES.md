@@ -12,7 +12,7 @@ Official GitHub Releases of XL-FenBao Study can include verified third-party exe
 - License: https://github.com/yt-dlp/yt-dlp/blob/master/LICENSE
 - Bundled executable notices: https://github.com/yt-dlp/yt-dlp/blob/master/THIRD_PARTY_LICENSES.txt
 
-The official PyInstaller-based Windows executable contains components under additional licenses. Consult the notices distributed by yt-dlp before redistributing a binary.
+The official PyInstaller-based Windows and macOS executables contain components under additional licenses. Consult the notices distributed by yt-dlp before redistributing a binary.
 
 ## FFmpeg and FFprobe
 
@@ -26,6 +26,12 @@ The original portable build used the BtbN win64 GPL build `N-125708-gccc57378b3-
 The FFmpeg source revision is `ccc57378b37d9129396a037df02c83a877d8eef0`. The BtbN build-script revision used for the 2026-07-21 build is `8c736b2d6fe5da2a10a8896d01e53bfb0ca4f665`. Exact source URLs, the detected build configuration and binary hashes are recorded in `vendor/bin/FFmpeg-SOURCE.md`.
 
 Redistributors are responsible for checking the exact configuration and license of the FFmpeg build they ship and for fulfilling all applicable source-code and notice obligations.
+
+The macOS build compiles the same FFmpeg source revision natively for Apple Silicon
+and Intel under LGPL 2.1 or later, without GPL/nonfree or external codec libraries.
+See `docs/FFmpeg-MAC-SOURCE.md` and `scripts/build-ffmpeg-mac.sh`. Each macOS app
+includes the corresponding LGPL text and source notice in `Contents/Resources/bin`.
+Its FFmpeg tools depend only on macOS system libraries, with no Homebrew dependency.
 
 ## Playwright Core
 

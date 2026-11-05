@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.1.0 — 2026-11-05
+
+- 新增 macOS 13+ Apple Silicon 与 Intel 的 DMG/ZIP 构建，保留 Windows x64 便携版。
+- 修复 Electron 运行时安装、程序资源路径、下载工具与 FFmpeg 合并中的 Windows 专用假设。
+- Mac 设置和历史存入 Application Support，视频默认存入 Downloads/粉包学习记，支持只读应用目录。
+- 增加三平台 CI、原生打包与发布流水线、SHA-256 校验及对应第三方源码附件。
+- 增加 Mac 路径回归测试，并让离线下载和打包恢复测试在 Windows/Mac 上共用。
+
 ## 1.0.0 — 2026-08-22
 
 - 首次公开发布 Electron、React 与 TypeScript 源码。

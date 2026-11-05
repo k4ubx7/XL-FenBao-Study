@@ -3,7 +3,7 @@
 把散落在网页和分享文案中的公开视频，整理成可长期保存、可继续学习的本地资料。
 
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
-[![Platform](https://img.shields.io/badge/platform-Windows-0078D4.svg)](#运行环境)
+[![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS-0078D4.svg)](#运行环境)
 [![Electron](https://img.shields.io/badge/Electron-React%20%2B%20TypeScript-47848F.svg)](#技术结构)
 
 > XL-FenBao Study 是 [XL-FenBao](https://github.com/k4ubx7/XL-FenBao) 的配套采集工具：它负责把你有权保存的视频带回本地；视频中经过学习、验证和提炼的内容，才适合进一步进入个人 AI 工程资产系统。
@@ -23,13 +23,25 @@
 
 ## 直接下载
 
-不参与开发的用户可以前往 [GitHub Releases](https://github.com/k4ubx7/XL-FenBao-Study/releases/latest)，下载名称包含 `windows-x64-portable.zip` 的 Windows 便携包：
+前往 [GitHub Releases](https://github.com/k4ubx7/XL-FenBao-Study/releases/latest)，按电脑选择：
+
+| 电脑 | 文件名包含 | 安装方法 |
+| --- | --- | --- |
+| Windows 10/11 x64 | `windows-x64-portable.zip` | 完整解压，双击 `粉包学习记.exe` |
+| Apple 芯片 Mac（M1 及更新型号） | `macos-arm64.dmg` | 打开 DMG，拖入“应用程序” |
+| Intel Mac | `macos-x64.dmg` | 打开 DMG，拖入“应用程序” |
+
+Mac 需要 macOS 13 或更新系统，在苹果菜单“关于本机”中查看芯片类型。也可下载相同架构的 ZIP。
+
+Windows 用法：
 
 1. 下载并完整解压 ZIP，不要只单独取出 EXE。
 2. 双击 `粉包学习记.exe`。
 3. 粘贴公开视频链接或分享文案后开始下载。
 
-便携包已经包含运行所需的 yt-dlp、FFmpeg 和 FFprobe，不需要安装 Node.js。当前程序未使用商业代码签名证书，Windows SmartScreen 可能显示未知发布者；请只从本仓库 Release 下载，并用同一 Release 中的 SHA-256 文件核对完整性。
+所有安装包已包含 yt-dlp、FFmpeg 和 FFprobe，不需要安装 Node.js、Python 或 Homebrew。抖音解析需要本机安装 Chrome 或 Edge。
+
+当前程序未使用商业代码签名证书；Windows SmartScreen 可能显示未知发布者。Mac 使用 ad-hoc 签名，尚未通过 Apple 公证，首次打开可能需要在“系统设置 → 隐私与安全性”中选择“仍要打开”。请只从本仓库 Release 下载，并用同一 Release 中的 SHA-256 文件核对完整性。
 
 ## 它解决什么问题
 
@@ -53,7 +65,7 @@
 - **抖音适配**：当普通解析不可用时，使用隔离的 Edge/Chrome 浏览器会话识别当前视频流。
 - **下载队列**：支持 1–3 个并发任务、画质预设、实时进度、取消和失败重试。
 - **本地历史**：任务状态以原子方式写入本地 `state.json`，默认最多保留 500 条历史。
-- **便携目录**：正式构建中的程序、`data` 和 `downloads` 可以随文件夹一起移动。
+- **本地存储**：Windows 的程序、`data` 和 `downloads` 可以随文件夹移动；Mac 的设置和历史保存在用户的 Application Support，视频默认保存到“下载/粉包学习记”。
 - **隐私隔离**：不会读取日常浏览器配置；抖音交互登录只保存在应用自己的数据目录。
 
 ## 工作方式
@@ -81,11 +93,11 @@ downloads/
 
 ## 运行环境
 
-当前版本面向 Windows 10/11 x64：
+支持 Windows 10/11 x64 和 macOS 13+（Apple Silicon / Intel）。以下是源码开发环境，普通用户直接下载安装包即可：
 
 - Node.js 22 或更高版本；建议使用 Node.js 24 LTS。
 - 本机安装的 Microsoft Edge 或 Google Chrome，用于抖音隔离浏览器解析。
-- `yt-dlp.exe`、`ffmpeg.exe` 和 `ffprobe.exe`，放在 `vendor/bin/`。
+- `vendor/bin/` 中的原生 yt-dlp、FFmpeg 和 FFprobe，执行 `npm run tools:prepare` 自动准备；Mac 编译工具还需要 Xcode Command Line Tools。
 
 仓库不会提交这些第三方可执行文件。来源、版本与校验说明见 [`vendor/bin/README.md`](vendor/bin/README.md)，完整准备过程见 [`docs/BUILDING.md`](docs/BUILDING.md)。
 
@@ -93,7 +105,7 @@ downloads/
 
 ```powershell
 git clone https://github.com/k4ubx7/XL-FenBao-Study.git
-Set-Location XL-FenBao-Study
+cd XL-FenBao-Study
 npm ci
 npm run dev
 ```
@@ -111,7 +123,7 @@ npm run test:e2e
 
 `npm run test:e2e` 需要 `vendor/bin/` 中的工具。真实抖音检查默认跳过；只有显式设置 `FENBAO_DOUYIN_URL` 时才会运行。
 
-## 构建便携版
+## 构建安装包
 
 准备好第三方工具后执行：
 
@@ -119,7 +131,7 @@ npm run test:e2e
 npm run pack
 ```
 
-Windows 便携目录会生成在 `release/win-unpacked/`。发布前请按 [`docs/RELEASING.md`](docs/RELEASING.md) 完成检查，不要把本机 `data/`、`downloads/`、Cookie、日志或测试媒体打入发布包。
+`npm run pack` 生成当前系统的应用目录。Windows 使用 `npm run pack:win` 生成 `release/win-unpacked/`；在 Mac 上使用 `npm run pack:mac` 生成当前芯片架构的 DMG 与 ZIP。GitHub Actions 可分别在 Apple Silicon 和 Intel Mac 上构建。发布前请按 [`docs/RELEASING.md`](docs/RELEASING.md) 完成检查，不要把本机 `data/`、`downloads/`、Cookie、日志或测试媒体打入发布包。
 
 ## 技术结构
 
@@ -143,7 +155,7 @@ tests/
 - Electron 渲染层启用 `contextIsolation` 和沙箱，关闭 Node 集成及 WebView。
 - 外部导航、窗口打开和权限请求默认拒绝。
 - 下载进程不经过 Shell 拼接命令，错误消息会隐藏 Cookie、Token、账号和参数值。
-- 开发数据位于 `.dev-data/`；便携版数据位于程序目录下的 `data/`。
+- 开发数据位于 `.dev-data/`；Windows 便携版数据位于程序目录下的 `data/`；Mac 正式版位于 `~/Library/Application Support/粉包学习记/`。
 - 抖音需要交互登录时，会使用 `data/douyin-browser/` 中的隔离浏览器配置；它不会读取你日常浏览器的个人资料。
 - `data/` 中可能包含登录 Cookie 和浏览历史，因此不得上传、打包或发送给他人。
 

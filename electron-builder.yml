@@ -15,8 +15,12 @@ extraResources:
     to: bin
     filter:
       - yt-dlp.exe
+      - yt-dlp
       - ffmpeg.exe
+      - ffmpeg
       - ffprobe.exe
+      - ffprobe
+      - tools-manifest.json
       - FFmpeg-LICENSE.txt
       - FFmpeg-SOURCE.md
       - yt-dlp-LICENSE.txt
@@ -35,3 +39,16 @@ win:
       arch:
         - x64
   artifactName: 粉包学习记-${version}-${arch}
+mac:
+  icon: build/icon.png
+  category: public.app-category.education
+  minimumSystemVersion: '13.0'
+  identity: '-'
+  hardenedRuntime: false
+  notarize: false
+  target:
+    - dmg
+    - zip
+  artifactName: XL-FenBao-Study-v${version}-macos-${arch}.${ext}
+dmg:
+  title: 粉包学习记 ${version}
